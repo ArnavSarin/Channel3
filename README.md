@@ -27,7 +27,7 @@ API documentation: <http://127.0.0.1:8000/docs>.
 - `GET /brands/{brand_id}/products?limit=100&offset=0` lists products for a brand.
 - `GET /products/{product_name}` returns one URL-encoded product name.
 
-The catalog is extracted in the background. You can wait for `/brands` to return information before running the UI.
+The catalog is extracted in the background. You can wait for `/brands` to return information before running the UI. If brands returns [] the extraction is not completed.
 
 ## Frontend
 

@@ -1,5 +1,20 @@
 .env
 __pycache__/
+.venv/
+
+# Frontend dependencies and build output
+front-end/node_modules/
+front-end/.next/
+front-end/out/
+front-end/tsconfig.tsbuildinfo
+
+# Local tooling and generated reports
+.idea/
+comparison_output/
+extruct_output/
+take_home_2026.egg-info/
+.DS_Store
+front-end/**/.DS_Store
 
 # don't assume they're using UV
 uv.lock

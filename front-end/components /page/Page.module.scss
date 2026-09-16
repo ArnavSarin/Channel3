@@ -1,0 +1,227 @@
+@use "../../mixins/util.module" as util;
+
+$spaceSmall: 0.5rem;
+$spaceMedium: 1rem;
+$spaceLarge: 2rem;
+
+.page {
+  display: flex;
+  @include util.dimension-fullWidth;
+  align-items: flex-start;
+  gap: $spaceLarge;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    .gallery,
+    .details {
+      @include util.dimension-fullWidth;
+      flex: none;
+    }
+  }
+}
+
+.gallery,
+.details {
+  @include util.flex-columnLayout;
+  min-width: 0;
+  align-items: center;
+}
+
+.gallery {
+  flex: 6 1 0;
+  gap: $spaceMedium;
+}
+
+.details {
+  flex: 4 1 0;
+  text-align: left;
+  gap: $spaceMedium;
+
+  > * {
+    width: min(100%, 30rem);
+  }
+}
+
+.mainImageRow {
+  display: flex;
+  position: relative;
+  @include util.dimension-fullWidth;
+}
+
+.imageControls {
+  position: absolute;
+  right: $spaceSmall;
+  bottom: $spaceSmall;
+  display: flex;
+  gap: $spaceSmall;
+}
+
+.imageArrow {
+  background: util.$colors---white;
+  color: util.$colors---brand-primary;
+}
+
+.mainImage,
+.emptyImage {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 1;
+  @include util.border-base;
+  @include util.border-radius;
+}
+
+.mainImage {
+  object-fit: cover;
+}
+
+.emptyImage {
+  display: flex;
+  @include util.flex-center;
+  background: util.$colors---background-gray;
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: safe center;
+  gap: $spaceSmall;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.thumbnailButton {
+  flex: 0 0 5rem;
+  padding: 0;
+  @include util.border-base;
+  border-width: 2px;
+  @include util.border-radius(4px);
+  background: util.$colors---white;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  &:focus-visible,
+  &.activeThumbnail {
+    border-color: util.$colors---brand-primary;
+  }
+}
+
+.heading {
+  gap: $spaceSmall;
+}
+
+.section,
+.features {
+  gap: $spaceSmall;
+}
+
+.heading,
+.section,
+.features {
+  @include util.flex-columnLayout;
+  align-items: flex-start;
+}
+
+.price,
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: $spaceSmall;
+}
+
+.colorsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spaceSmall;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.colorItem {
+  display: inline-flex;
+  align-items: center;
+  gap: $spaceSmall;
+  padding: $spaceSmall $spaceMedium;
+  @include util.border-base;
+  border-color: util.$colors---product-lavender-border;
+  border-radius: 999px;
+  background: util.$colors---product-lavender;
+}
+
+.variantBox {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  box-sizing: border-box;
+  gap: $spaceSmall;
+  padding: $spaceMedium;
+  border: 1px solid util.$colors---product-lavender-border;
+  border-radius: 0.75rem;
+  background: util.$colors---product-lavender;
+}
+
+@media (max-width: 420px) {
+  .variantBox {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.variant {
+  min-width: 0;
+  padding: $spaceSmall $spaceMedium;
+  border: 1px solid util.$colors---product-purple-light-border;
+  border-radius: 0.5rem;
+  background: util.$colors---white;
+}
+
+.variantHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $spaceMedium;
+  min-width: 0;
+}
+
+.variantName,
+.variantPrice {
+  color: util.$colors---product-purple-dark;
+}
+
+.variantName {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.variantPrice {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.variantMeta {
+  color: util.$colors---text-gray;
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.price s {
+  color: util.$colors---text-gray;
+}
+
+.features {
+  margin: 0;
+  padding-left: $spaceMedium;
+}
+
+.option {
+  padding: $spaceSmall $spaceMedium;
+  @include util.border-base;
+  border-color: util.$colors---border-gray;
+  @include util.border-radius(4px);
+}

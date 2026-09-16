@@ -1,0 +1,18 @@
+@use "colors.module" as colors;
+
+@mixin base {
+  border: 1px solid colors.$border-light-gray;
+}
+
+@mixin bottom {
+  border-bottom: 1px solid colors.$border-light-gray;
+}
+
+@mixin radius($radius: 10px) {
+  border-radius: $radius;
+}
+
+@mixin base-rectangle {
+  @include base;
+  @include radius(30px);
+}

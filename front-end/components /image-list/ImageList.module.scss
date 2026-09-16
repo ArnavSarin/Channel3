@@ -1,0 +1,57 @@
+@use "../../mixins/util.module" as util;
+
+.container {
+  @include util.flex-col;
+  min-height: 0;
+}
+
+.imageList {
+  @include util.dimension-fullWidth;
+  flex: 1;
+  margin: 0;
+  padding: 0.5rem;
+  @include util.dimension-scrollRegion;
+}
+
+.pagination {
+  display: flex;
+  @include util.flex-center;
+  padding: 0.75em 0;
+}
+
+.imageListItem {
+  min-width: 0;
+}
+
+.imageButton {
+  @include util.flex-col;
+  align-items: stretch;
+  padding: 1em;
+  overflow: hidden;
+  color: inherit;
+  text-align: left;
+  text-transform: none;
+  @include util.border-radius;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+
+  &:hover {
+    background-color: util.$colors---background-gray;
+    box-shadow: 0 0 0 3px util.$colors---brand-primary;
+  }
+
+  &:focus-visible {
+    outline: 3px solid util.$colors---brand-primary;
+    outline-offset: 2px;
+  }
+}
+
+.image {
+  display: block;
+  @include util.dimension-fullWidth;
+  @include util.border-radius;
+}
+
+.imageListItemBar {
+  min-width: 0;
+  @include util.dimension-fullWidth;
+}

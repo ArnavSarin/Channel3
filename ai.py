@@ -1,3 +1,5 @@
+import asyncio
+import json
 import logging
 import os
 from functools import lru_cache
@@ -6,6 +8,7 @@ from typing import Any, TypeVar
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from pydantic import BaseModel
+from models import Price, Variant
 
 load_dotenv()
 
@@ -24,10 +27,69 @@ MODEL_PRICES: dict[str, dict[str, float]] = {
     "openai/gpt-5": {"input": 1.25, "output": 10.00},
     "openai/gpt-5-mini": {"input": 0.25, "output": 2.00},
     "openai/gpt-5-nano": {"input": 0.05, "output": 0.40},
+    "openai/gpt-5.6-luna": {"input": 0.20, "output": 1.20},
     # Feel free to add more models here
 }
 
 T = TypeVar("T", bound=BaseModel)
+
+
+class ProductExtraction(BaseModel):
+    """AI extraction shape before local taxonomy validation."""
+    name: str
+    price: Price | None = None
+    description: str
+    key_features: list[str]
+    image_urls: list[str]
+    video_url: str | None = None
+    category: str | None = None
+    brand: str
+    colors: list[str]
+    variants: list[Variant]
+
+
+PRODUCT_EXTRACTION_PROMPT = """Extract the main ecommerce product from the supplied HTML evidence.
+Return only a Product JSON object. Preserve relationships between headings and their content.
+Extract all supported fields, including clean individual features and selectable Variant objects.
+Return colors as a flat list of distinct readable color names. Every variant must contain only
+name, size, price, availability, sku, and mpn; use null for an unavailability variant field.
+Use nearby product context, structured records, breadcrumbs, labels, and application state to infer
+values when the page does not expose a clean field directly. Prefer a well-supported value over
+null, including the closest exact Google Product Taxonomy category supported by the product name
+and description. Ignore navigation, tracking, recommendations, shipping, and unrelated products.
+Use null only when no reasonable evidence exists, and never invent brands, prices, SKUs, or options.
+
+HTML evidence:
+{evidence}
+"""
+
+
+async def extract_product_from_evidence(evidence: str, model: str = "openai/gpt-5.6-luna") -> ProductExtraction:
+    """Extract Product fields with bounded retries and a JSON fallback."""
+    prompt = PRODUCT_EXTRACTION_PROMPT.format(evidence=evidence)
+    last_error = None
+    for attempt in range(2):
+        try:
+            return await asyncio.wait_for(
+                responses(model, prompt, text_format=ProductExtraction, max_output_tokens=2500),
+                timeout=30,
+            )
+        except Exception as error:
+            last_error = error
+            if attempt < 2:
+                await asyncio.sleep(2 ** attempt)
+
+    try:
+        response = await asyncio.wait_for(
+            responses(model, prompt, max_output_tokens=2500),
+            timeout=30,
+        )
+        raw_json = response.output_text.strip()
+        if raw_json.startswith("```"):
+            raw_json = raw_json.strip("`").removeprefix("json").strip()
+        return ProductExtraction.model_validate(json.loads(raw_json))
+    except Exception as fallback_error:
+        raise RuntimeError("AI product extraction failed after retries and JSON fallback") from (fallback_error or last_error)
 
 
 @lru_cache

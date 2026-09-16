@@ -1,0 +1,13 @@
+@mixin fullWidth {
+  width: 100%;
+}
+
+@mixin scrollRegion {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+@mixin fill {
+  height: 100%;
+  @include fullWidth;
+}

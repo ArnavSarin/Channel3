@@ -1,0 +1,13 @@
+@use "../mixins/util.module" as util;
+
+html, body {
+  @include util.flex-col;
+  margin: 0;
+  padding: 0;
+}
+
+#__next {
+  @include util.flex-col;
+  @include util.flex-center;
+  flex: 1;
+}

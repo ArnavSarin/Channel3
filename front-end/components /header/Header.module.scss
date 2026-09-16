@@ -1,0 +1,14 @@
+@use "../../mixins/util.module" as util;
+
+.headerBox {
+  @include util.flex-row;
+  @include util.border-bottom;
+  height: 4.5em;
+
+
+  .headerAppBar {
+    @include util.dimension-fill;
+    background-color: util.$colors---background-gray;
+    box-shadow: unset;
+  }
+}

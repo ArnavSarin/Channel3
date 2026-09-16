@@ -1,0 +1,6 @@
+@use "../../mixins/util.module" as util;
+
+.form {
+  @include util.flex-col;
+  @include util.flex-center;
+}

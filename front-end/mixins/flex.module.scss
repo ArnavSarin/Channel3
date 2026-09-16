@@ -1,0 +1,34 @@
+@use "dimensions.module" as dimension;
+
+@mixin columnLayout {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin row {
+  display: flex;
+  flex-direction: row;
+  @include dimension.fill;
+}
+
+@mixin col {
+  @include columnLayout;
+  @include dimension.fill;
+}
+
+@mixin row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+  @include dimension.fill;
+}
+
+@mixin col-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+  @include dimension.fill;
+}
+
+@mixin center {
+  align-items: center;
+  justify-content: center;
+}

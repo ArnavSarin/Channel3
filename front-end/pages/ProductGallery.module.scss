@@ -1,0 +1,92 @@
+@use "../mixins/util.module" as util;
+
+.channel3Logo {
+  width: auto;
+  height: 1.75rem;
+  filter: brightness(0);
+}
+
+.productGalleryBox > .headerBox {
+  @include util.dimension-fullWidth;
+  flex: none;
+  height: 3.5rem;
+}
+
+.headerWidth {
+  width: 100%;
+}
+
+.productGalleryBox > .headerBox .headerBar {
+  background-color: util.$colors---white;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include util.dimension-fill;
+  padding: 0 1rem;
+}
+
+.backButton {
+  white-space: nowrap;
+}
+
+.backLabel {
+  @media (max-width: 639px) {
+    display: none;
+  }
+}
+
+.pageArea {
+  flex: 1;
+  @include util.dimension-fullWidth;
+  padding: 2.5rem 1rem 2rem;
+}
+
+.background {
+  @include util.flex-row;
+  justify-content: center;
+  height: 100vh;
+  padding: 0 0.75rem;
+
+  .productGalleryBox {
+    @include util.flex-col;
+    @include util.border-base;
+    max-width: 88rem;
+    @include util.dimension-scrollRegion;
+    background-color: util.$colors---white;
+  }
+
+  @media (min-width: 640px) {
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    .pageArea {
+      padding-top: 3.5rem;
+      padding-bottom: 2.5rem;
+    }
+
+    .headerContent,
+    .pageArea {
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+
+    .headerContent,
+    .pageArea {
+      padding-right: 2rem;
+      padding-left: 2rem;
+    }
+  }
+}
